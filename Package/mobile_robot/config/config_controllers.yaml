@@ -1,0 +1,37 @@
+# Robot name goes here
+mobile_robot: # change the name
+  # default controller
+ joint_state_controller:
+  type: joint_state_controller/JointStateController
+  publish_rate: 50
+
+  # Controller 1
+   
+ controller_ra: # change the name
+  type: velocity_controllers/JointVelocityController # Type of controller. 
+  joint: joint_ra # Name of the joint.
+ 
+ controller_fa: # change the name
+  type: effort_controllers/JointEffortController # Type of controller. 
+  joint: joint_fa # Name of the joint.
+  
+ gazebo_ros_control:
+  pid_gains:
+   joint_ra:
+    p: 20
+    i: 0.01
+    d: 0.01
+
+   joint_fa:
+    p: 20
+    i: 0.01
+    d: 0.01
+   
+
+  # Controller 2
+  # Controller 3
+  # ....
+  # Controller n
+
+
+ 

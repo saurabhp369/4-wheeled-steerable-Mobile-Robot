@@ -1,0 +1,74 @@
+<?xml version="1.0"?>
+<!-- Name your robot here -->
+<robot name ="" xmlns:xacro="http://wiki.ros.org/xacro">
+
+<!-- Include your urdf files here -->
+	<!-- Include Robot's urdf filepath -->
+	<!-- Include Lidar's urdf filepath -->
+	<xacro:include filename="$(find mobile_robot)/urdf/mobile_robot.urdf"/>
+	<xacro:include filename="$(find mobile_robot)/urdf/ydlidar.urdf"/>
+
+<!-- Add your gazebo sensors here -->
+	<gazebo reference="base_laser">
+	  <sensor name="laser" type="ray">
+	    <pose>0 0 0 0 0 0</pose>
+	    <!--<always_on>true</always_on>-->
+	    <visualize>true</visualize>
+	    <update_rate>40</update_rate>
+	    <ray>
+	      <scan>
+		<horizontal>
+		  <samples>720</samples>
+		  <resolution>1.000000</resolution>
+		  <min_angle>-1.578800</min_angle>
+		  <max_angle>1.578800</max_angle>
+		</horizontal>
+	      </scan>
+	      <range>
+		<min>0.120000</min>
+		<max>3.5</max>
+		<resolution>0.015000</resolution>
+	      </range>
+	      <noise>
+		<type>gaussian</type>
+		<mean>0.0</mean>
+		<stddev>0.01</stddev>
+	      </noise>
+	    </ray>
+	           <plugin name="gazebo_ros_head_hokuyo_controller" filename="libgazebo_ros_laser.so">
+	                <topicName>mobile_robot/laser_scan</topicName>
+	                <frameName>laser_frame</frameName>
+	           </plugin>
+	  </sensor>
+	</gazebo>
+	
+
+<!--  Gazebo plugin for control here is already added for you -->
+	<gazebo>
+		<plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+			<robotNamespace>/mobile_robot</robotNamespace>
+			<robotSimType>gazebo_ros_control/DefaultRobotHWSim</robotSimType>
+			<legacyModeNS>true</legacyModeNS>
+		</plugin>
+	</gazebo>
+
+
+<!-- Create a joint between your robot and sensor -->
+	<joint
+	    name="joint_lidar"
+	    type="fixed">
+	    <origin
+	      xyz="0.21079 -0.01705 0.295477"
+	      rpy="0 3.14 3.14" />
+	    <parent
+	      link="base_link" />
+	    <child
+	      link="base_laser" />
+	    <axis
+	      xyz="0 0 1" />
+	 </joint>
+	
+
+</robot>	
+
+
